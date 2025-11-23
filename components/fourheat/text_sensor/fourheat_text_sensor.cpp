@@ -5,8 +5,6 @@
 #include <map>      // <- necesario para std::map
 #include <string>   // <- necesario para std::string
 
-#warning "FOURHEAT fork activo (fix 2025.11.0)"
-
 namespace esphome {
 namespace fourheat {
 
