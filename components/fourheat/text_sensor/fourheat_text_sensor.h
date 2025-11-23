@@ -8,6 +8,8 @@
 #include <map>       // <-- NUEVO
 #include <string>    // <-- NUEVO
 
+#warning "FOURHEAT fork activo (fix 2025.11.0)"
+
 namespace esphome {
 namespace fourheat {
 
