@@ -5,6 +5,8 @@
 #include "esphome/components/fourheat/common.h"
 #include "esphome/components/fourheat/fourheat.h"
 #include "esphome/components/text_sensor/text_sensor.h"
+#include <map>       // <-- NUEVO
+#include <string>    // <-- NUEVO
 
 namespace esphome {
 namespace fourheat {
