@@ -7,6 +7,7 @@
 #include "esphome/components/text_sensor/text_sensor.h"
 #include <map>       // <-- NUEVO
 #include <string>    // <-- NUEVO
+#include <vector>    // <-- NUEVO
 
 #warning "FOURHEAT fork activo (fix 2025.11.0)"
 
@@ -16,7 +17,7 @@ namespace fourheat {
 class FourHeatTextSensor : public text_sensor::TextSensor, public Component {
  public:
   void setup() override;
-  void dump_config() override;
+  void dump_config() ;
 
   void set_fourheat_parent(FourHeat *parent);
   void set_datapoint_id(const std::string datapoint_id);
@@ -36,8 +37,7 @@ class FourHeatTextSensor : public text_sensor::TextSensor, public Component {
 
   std::map<int, std::string> options_;
 
-  //void handle_data_(const std::vector<uint8_t> &data);
-  void handle_data_(const std::vector<uint8_t> &data) override;
+  void handle_data_(const std::vector<uint8_t> &data);
 };
 
 }  // namespace fourheat
