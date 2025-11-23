@@ -22,7 +22,8 @@ class FourHeatTextSensor : public text_sensor::TextSensor, public Component {
 
   void set_parser(const parser_t<int> &parser);
 
-  void set_options(const std::map<int, std::string> options);
+  // void set_options(const std::map<int, std::string> options);
+  void set_options(const std::map<int, std::string> &options);
 
  protected:
   FourHeat *parent_;
@@ -33,7 +34,8 @@ class FourHeatTextSensor : public text_sensor::TextSensor, public Component {
 
   std::map<int, std::string> options_;
 
-  void handle_data_(const std::vector<uint8_t> &data);
+  //void handle_data_(const std::vector<uint8_t> &data);
+  void handle_data_(const std::vector<uint8_t> &data) override;
 };
 
 }  // namespace fourheat
