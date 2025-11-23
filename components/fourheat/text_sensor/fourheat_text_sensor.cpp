@@ -2,6 +2,9 @@
 #include "esphome/components/fourheat/helpers.h"
 #include "fourheat_text_sensor.h"
 
+#include <map>      // <- necesario para std::map
+#include <string>   // <- necesario para std::string
+
 namespace esphome {
 namespace fourheat {
 
@@ -28,26 +31,31 @@ void FourHeatTextSensor::set_query_datapoint_id(const std::string datapoint_id) 
 
 void FourHeatTextSensor::set_parser(const parser_t<int> &parser) { this->parser_ = parser; }
 
-void FourHeatTextSensor::set_options(const std::map<int, std::string> options) { this->options_ = std::move(options); }
+// Cambiado: pasa a const& (evita copia y no rompe compilación del core)
+void FourHeatTextSensor::set_options(const std::map<int, std::string> &options) {
+  this->options_ = options;
+}
 
 void FourHeatTextSensor::handle_data_(const std::vector<uint8_t> &data) {
   auto parsed = parse<int>(this->parser_, data);
 
   if (!parsed.has_value()) {
-    ESP_LOGW(TAG, "Received invalid data for text sensor %s: %s", this->datapoint_id_.c_str(), format_hex_pretty(data).c_str());
+    ESP_LOGW(TAG, "Received invalid data for text sensor %s: %s",
+             this->datapoint_id_.c_str(), format_hex_pretty(data).c_str());
     return;
   }
 
   int value = parsed.value();
 
-  if (this->options_.find(value) == this->options_.end()) {
-    ESP_LOGW(TAG, "Received invalid value for text sensor %s: %d", this->datapoint_id_.c_str(), value);
+  auto it = this->options_.find(value);
+  if (it == this->options_.end()) {
+    ESP_LOGW(TAG, "Received invalid value for text sensor %s: %d",
+             this->datapoint_id_.c_str(), value);
     return;
   }
 
-  this->publish_state(this->options_[value]);
+  this->publish_state(it->second);
 }
 
 }  // namespace fourheat
 }  // namespace esphome
-
