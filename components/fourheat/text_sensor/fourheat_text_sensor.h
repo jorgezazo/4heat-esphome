@@ -5,11 +5,9 @@
 #include "esphome/components/fourheat/common.h"
 #include "esphome/components/fourheat/fourheat.h"
 #include "esphome/components/text_sensor/text_sensor.h"
-#include <map>       // <-- NUEVO
-#include <string>    // <-- NUEVO
-#include <vector>    // <-- NUEVO
-
-#warning "FOURHEAT fork activo (fix 2025.11.0)"
+#include <map>       // <-- NEW
+#include <string>    // <-- NEW
+#include <vector>    // <-- NEW
 
 namespace esphome {
 namespace fourheat {
@@ -26,7 +24,7 @@ class FourHeatTextSensor : public text_sensor::TextSensor, public Component {
   void set_parser(const parser_t<int> &parser);
 
   // void set_options(const std::map<int, std::string> options);
-  void set_options(const std::map<int, std::string> &options);
+  void set_options(const std::map<int, std::string> &options);   // <-- NEW
 
  protected:
   FourHeat *parent_;
