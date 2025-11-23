@@ -2,8 +2,8 @@
 #include "esphome/components/fourheat/helpers.h"
 #include "fourheat_text_sensor.h"
 
-#include <map>      // <- necesario para std::map
-#include <string>   // <- necesario para std::string
+#include <map>      // <- need for std::map
+#include <string>   // <- need for std::string
 
 namespace esphome {
 namespace fourheat {
@@ -31,7 +31,7 @@ void FourHeatTextSensor::set_query_datapoint_id(const std::string datapoint_id) 
 
 void FourHeatTextSensor::set_parser(const parser_t<int> &parser) { this->parser_ = parser; }
 
-// Cambiado: pasa a const& (evita copia y no rompe compilación del core)
+// change: pass to const& (avoids copy)
 void FourHeatTextSensor::set_options(const std::map<int, std::string> &options) {
   this->options_ = options;
 }
