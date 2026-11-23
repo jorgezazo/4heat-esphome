@@ -1,3 +1,4 @@
+#include "esphome/core/alloc_helpers.h"
 #include "esphome/core/log.h"
 #include "esphome/components/fourheat/helpers.h"
 #include "fourheat_select.h"
