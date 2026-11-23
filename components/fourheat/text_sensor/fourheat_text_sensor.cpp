@@ -2,9 +2,6 @@
 #include "esphome/components/fourheat/helpers.h"
 #include "fourheat_text_sensor.h"
 
-#include <map>      // <- need for std::map
-#include <string>   // <- need for std::string
-
 namespace esphome {
 namespace fourheat {
 
@@ -26,36 +23,31 @@ void FourHeatTextSensor::dump_config() {
 }
 
 void FourHeatTextSensor::set_fourheat_parent(FourHeat *parent) { this->parent_ = parent; }
-void FourHeatTextSensor::set_datapoint_id(const std::string datapoint_id) { this->datapoint_id_ = datapoint_id; }
-void FourHeatTextSensor::set_query_datapoint_id(const std::string datapoint_id) { this->query_datapoint_id_ = datapoint_id; }
+void FourHeatTextSensor::set_datapoint_id(std::string datapoint_id) { this->datapoint_id_ = std::move(datapoint_id); }
+void FourHeatTextSensor::set_query_datapoint_id(std::string datapoint_id) { this->query_datapoint_id_ = std::move(datapoint_id); }
 
 void FourHeatTextSensor::set_parser(const parser_t<int> &parser) { this->parser_ = parser; }
 
-// change: pass to const& (avoids copy)
-void FourHeatTextSensor::set_options(const std::map<int, std::string> &options) {
-  this->options_ = options;
-}
+void FourHeatTextSensor::set_options(std::map<int, std::string> options) { this->options_ = std::move(options); }
 
 void FourHeatTextSensor::handle_data_(const std::vector<uint8_t> &data) {
   auto parsed = parse<int>(this->parser_, data);
 
   if (!parsed.has_value()) {
-    ESP_LOGW(TAG, "Received invalid data for text sensor %s: %s",
-             this->datapoint_id_.c_str(), format_hex_pretty(data).c_str());
+    ESP_LOGW(TAG, "Received invalid data for text sensor %s: %s", this->datapoint_id_.c_str(), format_hex_pretty(data).c_str());
     return;
   }
 
   int value = parsed.value();
 
-  auto it = this->options_.find(value);
-  if (it == this->options_.end()) {
-    ESP_LOGW(TAG, "Received invalid value for text sensor %s: %d",
-             this->datapoint_id_.c_str(), value);
+  if (this->options_.find(value) == this->options_.end()) {
+    ESP_LOGW(TAG, "Received invalid value for text sensor %s: %d", this->datapoint_id_.c_str(), value);
     return;
   }
 
-  this->publish_state(it->second);
+  this->publish_state(this->options_[value]);
 }
 
 }  // namespace fourheat
 }  // namespace esphome
+

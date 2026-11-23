@@ -32,9 +32,8 @@ CONF_ON_DATA = "on_data"
 CONF_OFF_DATA = "off_data"
 
 CONFIG_SCHEMA = (
-    climate.CLIMATE_SCHEMA.extend(
+    climate.climate_schema(FourHeatClimate).extend(
         {
-            cv.GenerateID(): cv.declare_id(FourHeatClimate),
             cv.GenerateID(CONF_FOURHEAT_ID): cv.use_id(FourHeat),
             cv.Required(CONF_DATAPOINT): fhcv.datapoint,
             cv.Required(CONF_CURRENT_TEMPERATURE_DATAPOINT): fhcv.datapoint,
@@ -77,7 +76,7 @@ async def to_code(config):
         cg.add(var.set_query_target_temperature_datapoint_id(config[CONF_QUERY_TARGET_TEMPERATURE_DATAPOINT]))
     
     if CONF_PARSER in config:
-        lambda_ = await get_parser_expression(config[CONF_CURRENT_TEMPERATURE_PARSER], bool)
+        lambda_ = await get_parser_expression(config[CONF_PARSER], bool)
         cg.add(var.set_parser(lambda_))
 
     if CONF_CURRENT_TEMPERATURE_PARSER in config:

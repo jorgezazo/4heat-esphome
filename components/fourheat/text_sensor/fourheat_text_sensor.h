@@ -1,13 +1,12 @@
 #pragma once
 
+#include <map>
+
 #include "esphome/core/component.h"
 #include "esphome/core/optional.h"
 #include "esphome/components/fourheat/common.h"
 #include "esphome/components/fourheat/fourheat.h"
 #include "esphome/components/text_sensor/text_sensor.h"
-#include <map>       // <-- NEW
-#include <string>    // <-- NEW
-#include <vector>    // <-- NEW
 
 namespace esphome {
 namespace fourheat {
@@ -15,16 +14,15 @@ namespace fourheat {
 class FourHeatTextSensor : public text_sensor::TextSensor, public Component {
  public:
   void setup() override;
-  void dump_config() ;
+  void dump_config() override;
 
   void set_fourheat_parent(FourHeat *parent);
-  void set_datapoint_id(const std::string datapoint_id);
-  void set_query_datapoint_id(const std::string datapoint_id);
+  void set_datapoint_id(std::string datapoint_id);
+  void set_query_datapoint_id(std::string datapoint_id);
 
   void set_parser(const parser_t<int> &parser);
 
-  // void set_options(const std::map<int, std::string> options);
-  void set_options(const std::map<int, std::string> &options);   // <-- NEW
+  void set_options(std::map<int, std::string> options);
 
  protected:
   FourHeat *parent_;
